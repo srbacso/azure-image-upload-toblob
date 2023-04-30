@@ -17,8 +17,7 @@ console.log(uploadUrl);
 const blobService = new BlobServiceClient(uploadUrl);
 
 // get Container - full public read access
-const containerClient =
-  blobService.getContainerClient(containerName);
+const containerClient = blobService.getContainerClient(containerName);
 // </snippet_get_client>
 
 // <snippet_isStorageConfigured>
@@ -36,13 +35,13 @@ export const getBlobsInContainer = async () => {
   // get list of blobs in container
   // eslint-disable-next-line
   for await (const blob of containerClient.listBlobsFlat()) {
-    console.log(`${blob.name}`);
+    console.log(`Blob Name: ${blob.name}`);
 
     const blobItem = {
       url: `https://${storageAccountName}.blob.core.windows.net/${containerName}/${blob.name}?${sasToken}`,
-      name: blob.name
-    }
-
+      name: blob.name,
+    };
+    console.log(blobItem.url);
     // if image is public, just construct URL
     returnedBlobUrls.push(blobItem);
   }
@@ -69,6 +68,7 @@ const uploadFileToBlob = async (file) => {
   if (!file) return;
 
   // upload file
+  console.log(file);
   await createBlobInContainer(file);
 };
 // </snippet_uploadFileToBlob>
